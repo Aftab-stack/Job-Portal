@@ -28,33 +28,40 @@ const Jobs = () => {
   }, [allJobs, searchedquery]);
 
   return (
-    <div>
+    <div className="min-h-screen bg-slate-50">
       <Navbar />
-      <div>
-        <div>
-          <FilterCards />
-        </div>
-
-        {filterJobs.length <= 0 ? (
-          <span>Job not found</span>
-        ) : (
-          <div>
-            <div>
-              {filterJobs.map((job) => (
-                <motion.div
-                  initial={{ opacity: 0, x: 100 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -100 }}
-                  transition={{ duration: 0.3 }}
-                  key={job?._id}
-                >
-                  <Job job={job} />
-                </motion.div>
-              ))}
-            </div>
+      <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+        <div className="grid gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:items-start">
+          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <FilterCards />
           </div>
-        )}
-      </div>
+
+          {filterJobs.length <= 0 ? (
+            <div className="flex min-h-64 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white p-8 text-center shadow-sm">
+              <span className="text-sm font-medium text-slate-500">
+                Job not found
+              </span>
+            </div>
+          ) : (
+            <div className="min-w-0">
+              <div className="grid gap-5 md:grid-cols-2">
+                {filterJobs.map((job) => (
+                  <motion.div
+                    className="h-full"
+                    initial={{ opacity: 0, x: 100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -100 }}
+                    transition={{ duration: 0.3 }}
+                    key={job?._id}
+                  >
+                    <Job job={job} />
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </main>
     </div>
   );
 };

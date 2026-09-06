@@ -13,11 +13,15 @@ export const register = async (req, res) => {
         message: "All fields are required",
         success: false,
       });
-    };
+    }
 
-    const file=req.file;
-    const fileUri=getDataUri(file);
-    const cloudResponse= await cloudinary.uploader.upload(fileUri.content)
+    const file = req.file;
+    let profilePhoto = "";
+    if (file) {
+      const fileUri = getDataUri(file);
+      const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+      profilePhoto = cloudResponse.secure_url;
+    }
 
     let user = await User.findOne({ email });
     if (user) {
@@ -33,9 +37,9 @@ export const register = async (req, res) => {
       phoneNumber,
       password: hashedPassword,
       role,
-      profile:{
-        profilePhoto:cloudResponse.secure_url,
-      }
+      profile: {
+        profilePhoto,
+      },
     });
 
     return res.status(201).json({
@@ -44,6 +48,10 @@ export const register = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      message: "Registration failed",
+      success: false,
+    });
   }
 };
 
@@ -109,6 +117,10 @@ export const login = async (req, res) => {
       });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      message: "Login failed",
+      success: false,
+    });
   }
 };
 

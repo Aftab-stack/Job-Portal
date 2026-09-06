@@ -31,7 +31,7 @@ const Applicants = () => {
     <div>
       <Navbar />
       <div>
-        <h1>Applicants {applicants.applications.length}</h1>
+        <h1>Applicants {applicants?.applications?.length ?? 0}</h1>
         <ApplicantsTable />
       </div>
     </div>

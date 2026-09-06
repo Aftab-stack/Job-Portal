@@ -23,8 +23,8 @@ const Signup = () => {
     file: "",
   });
 
-  const {loading, user} = useSelector(store=>store.auth);
-  const dispatch= useDispatch();
+  const { loading, user } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const changeEventHandler = (e) => {
@@ -52,6 +52,7 @@ const Signup = () => {
           "Content-Type": "multipart/form-data",
         },
         withCredentials: true,
+        timeout: 10000,
       });
       if (res.data.success) {
         navigate("/login");
@@ -63,15 +64,15 @@ const Signup = () => {
       } else {
         toast.error(error.message);
       }
-    } finally{
+    } finally {
       dispatch(setLoading(false));
     }
   };
-  useEffect(()=>{
-    if(user){
+  useEffect(() => {
+    if (user) {
       navigate("/");
     }
-  }, [])
+  }, []);
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -181,7 +182,7 @@ const Signup = () => {
               </Button>
             ) : (
               <Button type="submit" className="w-full">
-                Login
+                Signup
               </Button>
             )}
 

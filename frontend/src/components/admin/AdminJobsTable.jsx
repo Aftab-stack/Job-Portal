@@ -29,7 +29,10 @@ const AdminJobsTable = () => {
         return true;
       }
 
-      return job?.title?.toLowerCase().includes(searchJobByText.toLowerCase()) || job?.company?.name.toLowerCase().includes(searchJobByText.toLowerCase());
+      return (
+        job?.title?.toLowerCase().includes(searchJobByText.toLowerCase()) ||
+        job?.company?.name.toLowerCase().includes(searchJobByText.toLowerCase())
+      );
     });
 
     setFilterJobs(filteredJobs);
@@ -62,8 +65,12 @@ const AdminJobsTable = () => {
                       <Edit2 />
                       <span>Edit</span>
                     </div>
-                    <div onClick={()=> navigate(`/admin/jobs/${job._id}/applicants`)}>
-                      <Eye/>
+                    <div
+                      onClick={() =>
+                        navigate(`/admin/jobs/${job._id}/applicants`)
+                      }
+                    >
+                      <Eye />
                       <span>Applicants</span>
                     </div>
                   </PopoverContent>

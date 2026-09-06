@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../Shared/Navbar";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -12,15 +12,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { JOB_API_END_POINT } from "../../utils/constant";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
-const companyArray = [];
-
 const PostJob = () => {
+  const { id } = useParams();
+  const isEditMode = Boolean(id);
   const [input, setInput] = useState({
     title: "",
     description: "",
@@ -35,6 +35,34 @@ const PostJob = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { companies } = useSelector((store) => store.company);
+
+  useEffect(() => {
+    if (!id) return;
+
+    const fetchJob = async () => {
+      try {
+        const res = await axios.get(`${JOB_API_END_POINT}/get/${id}`, {
+          withCredentials: true,
+        });
+        const job = res.data.job;
+        setInput({
+          title: job.title || "",
+          description: job.description || "",
+          requirements: job.requirements?.join(",") || "",
+          salary: job.salary || "",
+          location: job.location || "",
+          jobType: job.jobType || "",
+          experience: job.experienceLevel || "",
+          position: job.position || "",
+          companyId: job.company?._id || job.company || "",
+        });
+      } catch (error) {
+        toast.error(error.response?.data?.message || "Unable to load job");
+      }
+    };
+
+    fetchJob();
+  }, [id]);
 
   const changeHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -51,7 +79,12 @@ const PostJob = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await axios.post(`${JOB_API_END_POINT}/post`, input, {
+      const res = await axios({
+        method: isEditMode ? "put" : "post",
+        url: isEditMode
+          ? `${JOB_API_END_POINT}/update/${id}`
+          : `${JOB_API_END_POINT}/post`,
+        data: input,
         headers: {
           "Content-Type": "application/json",
         },
@@ -160,7 +193,10 @@ const PostJob = () => {
                 <SelectGroup>
                   {companies.map((company) => {
                     return (
-                      <SelectItem value={company?.name?.toLowerCase()}   key={company._id}>
+                      <SelectItem
+                        value={company?.name?.toLowerCase()}
+                        key={company._id}
+                      >
                         {company.name}
                       </SelectItem>
                     );
@@ -177,7 +213,7 @@ const PostJob = () => {
             </Button>
           ) : (
             <Button type="submit" className="w-full">
-              Update
+              {isEditMode ? "Update" : "Post Job"}
             </Button>
           )}
           {companies.length == 0 && (
