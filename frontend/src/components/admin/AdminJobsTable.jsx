@@ -38,39 +38,59 @@ const AdminJobsTable = () => {
     setFilterJobs(filteredJobs);
   }, [allAdminJobs, searchJobByText]);
   return (
-    <div>
-      <Table>
-        <TableCaption>A list of your recent posted jobs</TableCaption>
+    <div className="w-full overflow-x-auto rounded-lg border border-slate-200">
+      <Table className="min-w-160 bg-white">
+        <TableCaption className="px-4 py-3 text-left text-sm text-slate-500">
+          A list of your recent posted jobs
+        </TableCaption>
         <TableHeader>
-          <TableRow>
-            <TableHead>Company Name</TableHead>
-            <TableHead>Role</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>Action</TableHead>
+          <TableRow className="bg-slate-50 hover:bg-slate-50">
+            <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Company Name
+            </TableHead>
+            <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Role
+            </TableHead>
+            <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Date
+            </TableHead>
+            <TableHead className="w-20 px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Action
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {filterJobs?.map((job) => (
             <TableRow key={job._id}>
-              <TableCell>{job.company?.name}</TableCell>
-              <TableCell>{job.title}</TableCell>
-              <TableCell>{job.createdAt?.split("T")[0]}</TableCell>
-              <TableCell>
+              <TableCell className="max-w-56 truncate px-4 py-4 text-sm font-medium text-slate-900">
+                {job.company?.name}
+              </TableCell>
+              <TableCell className="max-w-64 truncate px-4 py-4 text-sm text-slate-600">
+                {job.title}
+              </TableCell>
+              <TableCell className="whitespace-nowrap px-4 py-4 text-sm text-slate-500">
+                {job.createdAt?.split("T")[0]}
+              </TableCell>
+              <TableCell className="px-4 py-4 text-right">
                 <Popover>
-                  <PopoverTrigger>
-                    <MoreHorizontal />
+                  <PopoverTrigger className="inline-flex size-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-blue-50 hover:text-blue-700">
+                    <MoreHorizontal className="size-4" />
                   </PopoverTrigger>
-                  <PopoverContent>
-                    <div onClick={() => navigate(`/admin/jobs/${job._id}`)}>
-                      <Edit2 />
+                  <PopoverContent className="w-40 rounded-xl border-slate-200 p-1 shadow-lg">
+                    <div
+                      onClick={() => navigate(`/admin/jobs/${job._id}`)}
+                      className="flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-600 transition-colors hover:bg-blue-50 hover:text-blue-700"
+                    >
+                      <Edit2 className="size-4" />
                       <span>Edit</span>
                     </div>
                     <div
                       onClick={() =>
                         navigate(`/admin/jobs/${job._id}/applicants`)
                       }
+                      className="flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-600 transition-colors hover:bg-blue-50 hover:text-blue-700"
                     >
-                      <Eye />
+                      <Eye className="size-4" />
                       <span>Applicants</span>
                     </div>
                   </PopoverContent>

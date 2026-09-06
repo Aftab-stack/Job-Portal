@@ -28,12 +28,34 @@ const Applicants = () => {
     fetchAllApplicants();
   }, []);
   return (
-    <div>
+    <div className="min-h-screen bg-slate-50">
       <Navbar />
-      <div>
-        <h1>Applicants {applicants?.applications?.length ?? 0}</h1>
-        <ApplicantsTable />
-      </div>
+      <main className="mx-auto w-full max-w-6xl space-y-6 px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-wider text-blue-600">
+              Recruiter workspace
+            </p>
+            <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+              Applicants
+            </h1>
+            <p className="mt-2 text-sm text-slate-500">
+              Review candidates and manage application status.
+            </p>
+          </div>
+          <div className="w-fit rounded-xl border border-blue-100 bg-blue-50 px-5 py-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">
+              Total applicants
+            </p>
+            <p className="mt-1 text-2xl font-bold text-blue-700">
+              {applicants?.applications?.length ?? 0}
+            </p>
+          </div>
+        </div>
+        <div className="rounded-xl border border-slate-200 bg-white p-2 shadow-sm sm:p-4">
+          <ApplicantsTable />
+        </div>
+      </main>
     </div>
   );
 };

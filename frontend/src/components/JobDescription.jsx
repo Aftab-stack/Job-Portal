@@ -11,6 +11,7 @@ import {
 import { setSingleJob } from "./redux/jobSlice";
 import { useDispatch, useSelector } from "react-redux";
 import store from "./redux/store";
+import { toast } from "sonner";
 
 const JobDescription = () => {
   const { user } = useSelector((store) => store.auth);
@@ -42,7 +43,9 @@ const JobDescription = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(
+        error.response?.data?.message || "Unable to apply for this job",
+      );
     }
   };
 
