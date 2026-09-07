@@ -77,9 +77,11 @@ const Job = ({ job }) => {
           {" "}
           Details
         </Button>
-        <Button className="w-full rounded-lg bg-blue-600 text-white shadow-sm hover:bg-blue-700 sm:flex-1">
+        
+        {/* <Button className="w-full rounded-lg bg-blue-600 text-white shadow-sm hover:bg-blue-700 sm:flex-1">
           Save For Later
-        </Button>
+        </Button> */}
+
       </div>
     </div>
   );
